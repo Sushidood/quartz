@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: Sushidood.github.io/quartz
+  baseUrl: https://sushidood.github.io/quartz
   ignorePatterns:
     - private
     - templates
