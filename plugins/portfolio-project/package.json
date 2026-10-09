@@ -1,0 +1,30 @@
+{
+  "name": "portfolio-project",
+  "version": "0.1.0",
+  "description": "Project page type for notes under projects/ on this Quartz site.",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "peerDependencies": {
+    "preact": "^10.0.0"
+  },
+  "quartz": {
+    "name": "portfolio-project",
+    "displayName": "Portfolio Project",
+    "category": [
+      "pageType"
+    ],
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 50,
+    "defaultEnabled": true,
+    "defaultOptions": {}
+  }
+}

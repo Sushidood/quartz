@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "plugins": {
+    "portfolio-home": {
+      "source": "./plugins/portfolio-home",
+      "resolved": "D:\\Vaults\\quartz\\plugins\\portfolio-home",
+      "commit": "local",
+      "installedAt": "2026-10-08T19:06:26.767Z"
+    },
+    "portfolio-motion": {
+      "source": "./plugins/portfolio-motion",
+      "resolved": "D:\\Vaults\\quartz\\plugins\\portfolio-motion",
+      "commit": "local",
+      "installedAt": "2026-10-09T01:21:18.679Z"
+    },
+    "portfolio-project": {
+      "source": "./plugins/portfolio-project",
+      "resolved": "D:\\Vaults\\quartz\\plugins\\portfolio-project",
+      "commit": "local",
+      "installedAt": "2026-10-08T20:42:59.496Z"
+    }
+  }
+}

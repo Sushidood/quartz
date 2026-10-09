@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: Quartz 5
+  pageTitle: Eddie Yang
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
@@ -16,30 +16,30 @@ configuration:
     fontOrigin: googleFonts
     cdnCaching: true
     typography:
-      header: Schibsted Grotesk
-      body: Source Sans Pro
-      code: IBM Plex Mono
+      header: Geist
+      body: Geist
+      code: Geist Mono
     colors:
       lightMode:
-        light: "#faf8f8"
-        lightgray: "#e5e5e5"
-        gray: "#b8b8b8"
-        darkgray: "#4e4e4e"
-        dark: "#2b2b2b"
-        secondary: "#284b63"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#fff23688"
+        light: "#F9F5D7"
+        lightgray: "#EBDBB2"
+        gray: "#665C54"
+        darkgray: "#3C3836"
+        dark: "#282828"
+        secondary: "#076678"
+        tertiary: "#427B58"
+        highlight: rgba(7, 102, 120, 0.1)
+        textHighlight: rgba(215, 153, 33, 0.28)
       darkMode:
-        light: "#161618"
-        lightgray: "#393639"
-        gray: "#646464"
-        darkgray: "#d4d4d4"
-        dark: "#ebebec"
-        secondary: "#7b97aa"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3aa0288"
+        light: "#1D2021"
+        lightgray: "#3C3836"
+        gray: "#A89984"
+        darkgray: "#EBDBB2"
+        dark: "#FBF1C7"
+        secondary: "#83A598"
+        tertiary: "#8EC07C"
+        highlight: rgba(131, 165, 152, 0.14)
+        textHighlight: rgba(250, 189, 47, 0.22)
 plugins:
   - source: "@quartz-community/created-modified-date"
     enabled: true
@@ -54,8 +54,8 @@ plugins:
     enabled: true
     options:
       theme:
-        light: github-light
-        dark: github-dark
+        light: gruvbox-light-hard
+        dark: gruvbox-dark-hard
       keepBackground: false
     order: 20
   - source: "@quartz-community/obsidian-flavored-markdown"
@@ -110,6 +110,26 @@ plugins:
     order: 92
   - source: "@quartz-community/quartz-fonts"
     enabled: true
+    options:
+      useThemeFonts: false
+      fontOrigin: googleFonts
+      header:
+        name: Geist
+        weights:
+          - 400
+          - 500
+          - 600
+      body:
+        name: Geist
+        weights:
+          - 400
+          - 500
+          - 600
+      code:
+        name: Geist Mono
+        weights:
+          - 400
+          - 500
   - source: "@quartz-themes/core"
     enabled: true
     options:
@@ -159,11 +179,35 @@ plugins:
     enabled: true
   - source: "@quartz-community/explorer"
     enabled: true
+    options:
+      title: Site Map
+      folderClickBehavior: collapse
+      mapFn: |-
+        (node) => {
+          if (node.slugSegments.length === 0 && node.data && !node.children.some((c) => c.isHome)) {
+            const home = new node.constructor(["index"], node.data)
+            home.isHome = true
+            home.displayName = "Home"
+            node.children.unshift(home)
+          }
+        }
+      sortFn: |-
+        (a, b) => {
+          if (a.isHome) return -1
+          if (b.isHome) return 1
+          if (a.isFolder === b.isFolder) {
+            return (a.displayName || "").localeCompare(b.displayName || "", undefined, {
+              numeric: true,
+              sensitivity: "base",
+            })
+          }
+          return a.isFolder ? -1 : 1
+        }
     layout:
       position: left
       priority: 50
   - source: "@quartz-community/graph"
-    enabled: true
+    enabled: false
     layout:
       position: right
       priority: 10
@@ -230,8 +274,9 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/jackyzha0/quartz
-        Discord Community: https://discord.gg/cRFFHYye7t
+        GitHub: https://github.com/Sushidood
+        LinkedIn: "#"
+        Email: "#"
     layout:
       position: footer
       priority: 50
@@ -273,6 +318,38 @@ plugins:
       darkMode: auto
       exportPadding: 20
     order: 50
+  - source: ./plugins/portfolio-home
+    enabled: true
+    options:
+      name: Eddie Yang
+      role: Electrical Engineering @ University of Waterloo
+      focus:
+        - Robotics
+        - Controls
+        - Embedded Systems
+        - AI
+      intro:
+        - I'm an Electrical Engineering student at the University of Waterloo, interested in robotics, controls,
+          embedded systems, and aerospace.
+        - I like building hardware end to end, from PCB design and firmware to testing and characterizing the finished
+          system.
+      education:
+        - school: University of Waterloo
+          program: Electrical Engineering
+          date: Expected 2031
+      projectsFolder: projects
+    order: 50
+  - source: ./plugins/portfolio-project
+    enabled: true
+    options: {}
+    order: 50
+  - source: ./plugins/portfolio-motion
+    enabled: true
+    options: {}
+    order: 50
+    layout:
+      position: afterBody
+      priority: 90
 layout:
   groups:
     toolbar:
@@ -286,14 +363,23 @@ layout:
         left: []
         right: []
     content: {}
+    home:
+      exclude:
+        - "@quartz-community/reader-mode"
+      positions:
+        beforeBody: []
+        right: []
+    project:
+      positions:
+        beforeBody: []
     folder:
       exclude:
-        - reader-mode
+        - "@quartz-community/reader-mode"
       positions:
         right: []
     tag:
       exclude:
-        - reader-mode
+        - "@quartz-community/reader-mode"
       positions:
         right: []
     canvas: {}

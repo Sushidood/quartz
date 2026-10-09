@@ -1,0 +1,40 @@
+{
+  "name": "portfolio-home",
+  "version": "0.1.0",
+  "description": "Portfolio-style homepage page type for this Quartz site.",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/components/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "peerDependencies": {
+    "preact": "^10.0.0"
+  },
+  "quartz": {
+    "name": "portfolio-home",
+    "displayName": "Portfolio Home",
+    "category": [
+      "pageType",
+      "component"
+    ],
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 50,
+    "defaultEnabled": true,
+    "defaultOptions": {},
+    "components": {
+      "ProjectCards": {
+        "displayName": "Project Cards",
+        "description": "Grid of project cards read from a folder of project notes."
+      }
+    }
+  }
+}

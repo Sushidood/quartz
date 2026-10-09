@@ -1,3 +1,207 @@
 @use "./variables.scss" as *;
+@use "./portfolio.scss";
 
 // put your custom CSS here!
+
+// Palette: Gruvbox Light Hard / Dark Hard (after justin.run). Unlayered on
+// purpose: the @quartz-themes/core plugin redefines --light/--secondary/--darkgray
+// inside @layer obsidian-theme, which would otherwise win over the colors in
+// quartz.config.yaml. Keep in sync with it.
+:root {
+  --light: #f9f5d7;
+  --lightgray: #ebdbb2;
+  --gray: #665c54;
+  --darkgray: #3c3836;
+  --dark: #282828;
+  --secondary: #076678;
+  --tertiary: #427b58;
+  --highlight: rgba(7, 102, 120, 0.1);
+  --textHighlight: rgba(215, 153, 33, 0.28);
+  --selection: rgba(189, 174, 147, 0.55);
+}
+
+:root[saved-theme="dark"] {
+  --light: #1d2021;
+  --lightgray: #3c3836;
+  --gray: #a89984;
+  --darkgray: #ebdbb2;
+  --dark: #fbf1c7;
+  --secondary: #83a598;
+  --tertiary: #8ec07c;
+  --highlight: rgba(131, 165, 152, 0.14);
+  --textHighlight: rgba(250, 189, 47, 0.22);
+  --selection: rgba(102, 92, 84, 0.6);
+}
+
+// Route the Obsidian-style variables used by theme/plugin CSS back to the palette.
+:root,
+:root[saved-theme="dark"] {
+  --background-primary: var(--light);
+  --background-primary-alt: var(--light);
+  // Sidebars use this; keep them the same tone as the page.
+  --background-secondary: var(--light);
+  --background-secondary-alt: var(--light);
+  --text-normal: var(--darkgray);
+  --text-muted: var(--gray);
+  --text-faint: var(--gray);
+  --text-accent: var(--secondary);
+  --text-accent-hover: var(--tertiary);
+  --link-color: var(--secondary);
+  --link-color-hover: var(--tertiary);
+  --interactive-accent: var(--secondary);
+  --interactive-accent-hover: var(--tertiary);
+  --color-accent: var(--secondary);
+  --color-accent-1: var(--secondary);
+  --color-accent-2: var(--tertiary);
+
+  // The theme sets paragraphs in --font-interface (system UI font by default).
+  --font-interface: var(--bodyFont), ui-sans-serif, system-ui, sans-serif;
+  --font-text: var(--bodyFont), ui-sans-serif, system-ui, sans-serif;
+  --font-monospace: var(--codeFont), ui-monospace, monospace;
+}
+
+// The theme colors every <p> with --text-muted; keep reading text at full contrast.
+article p {
+  color: var(--darkgray);
+}
+
+// Restrained links: plain accent text instead of a highlight pill.
+body a.internal:not(.tag-link, :has(> img)),
+body a.internal-link:not(.tag-link, :has(> img)) {
+  background-color: transparent;
+  padding: 0;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--tertiary);
+  }
+}
+
+// Text selection: muted Gruvbox surface instead of the base tertiary at 60%.
+::selection {
+  background: var(--selection);
+  color: var(--dark);
+}
+
+// Weights: 400 everywhere, 500 for the name and **bold** text (as on Richard
+// Hua's site). Size and spacing carry the hierarchy. Overrides the theme's
+// bold headings, sidebar title, and explorer labels.
+body {
+  font-synthesis-weight: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.article-title,
+button.desktop-explorer h2,
+button.mobile-explorer h2,
+.folder-container div > a,
+.folder-container div > button span {
+  font-weight: 400;
+}
+
+.page-title,
+strong,
+b {
+  font-weight: 500;
+}
+
+// With lighter weights, headings use the darkest ink to keep their contrast.
+article h1,
+article h2,
+article h3 {
+  color: var(--dark);
+}
+
+// Callouts: Gruvbox accents per type (Quartz/theme defaults are Material blue etc.).
+// Light uses Gruvbox's "faded" variants for contrast on the cream background.
+:root {
+  --gb-blue: #076678;
+  --gb-aqua: #427b58;
+  --gb-green: #79740e;
+  --gb-yellow: #b57614;
+  --gb-orange: #af3a03;
+  --gb-red: #9d0006;
+  --gb-purple: #8f3f71;
+  --gb-gray: #7c6f64;
+}
+
+:root[saved-theme="dark"] {
+  --gb-blue: #83a598;
+  --gb-aqua: #8ec07c;
+  --gb-green: #b8bb26;
+  --gb-yellow: #fabd2f;
+  --gb-orange: #fe8019;
+  --gb-red: #fb4934;
+  --gb-purple: #d3869b;
+  --gb-gray: #a89984;
+}
+
+.callout[data-callout] {
+  --gb-callout: var(--gb-blue);
+  --color: var(--gb-callout);
+  --callout-color: var(--gb-callout);
+  --border: color-mix(in srgb, var(--gb-callout) 32%, transparent);
+  --bg: color-mix(in srgb, var(--gb-callout) 8%, transparent);
+  border-color: var(--border);
+  background-color: var(--bg);
+
+  .callout-title,
+  .callout-title p {
+    color: var(--gb-callout);
+  }
+}
+
+.callout[data-callout="tip"],
+.callout[data-callout="hint"],
+.callout[data-callout="important"] {
+  --gb-callout: var(--gb-aqua);
+}
+.callout[data-callout="success"],
+.callout[data-callout="check"],
+.callout[data-callout="done"] {
+  --gb-callout: var(--gb-green);
+}
+.callout[data-callout="question"],
+.callout[data-callout="help"],
+.callout[data-callout="faq"] {
+  --gb-callout: var(--gb-yellow);
+}
+.callout[data-callout="warning"],
+.callout[data-callout="caution"],
+.callout[data-callout="attention"] {
+  --gb-callout: var(--gb-orange);
+}
+.callout[data-callout="failure"],
+.callout[data-callout="fail"],
+.callout[data-callout="missing"],
+.callout[data-callout="danger"],
+.callout[data-callout="error"],
+.callout[data-callout="bug"] {
+  --gb-callout: var(--gb-red);
+}
+.callout[data-callout="example"] {
+  --gb-callout: var(--gb-purple);
+}
+.callout[data-callout="quote"],
+.callout[data-callout="cite"] {
+  --gb-callout: var(--gb-gray);
+}
+
+// Code blocks: a quiet surface so they read as blocks (syntax colors are Gruvbox).
+// The syntax plugin paints pre with --code-background; the theme resets it on
+// every <figure> to an undefined variable, so set it on the code figure itself.
+:root,
+:root[saved-theme="dark"],
+figure[data-rehype-pretty-code-figure] {
+  --code-background: color-mix(in srgb, var(--lightgray) 30%, var(--light));
+}
+
+article pre {
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+}

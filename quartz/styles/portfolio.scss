@@ -1,0 +1,649 @@
+@use "./variables.scss" as *;
+
+// Portfolio homepage (plugins/portfolio-home). Loaded unlayered from custom.scss
+// so it wins over the @quartz-themes/core layer.
+
+.portfolio-home {
+  padding: 0 0 1rem;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin: 0;
+  }
+
+  .ph-hero {
+    margin-bottom: 3rem;
+  }
+
+  .ph-name {
+    font-family: var(--headerFont);
+    font-size: 2.25rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--dark);
+    margin: 0 0 1rem;
+  }
+
+  .ph-role {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--dark);
+    margin: 0;
+  }
+
+  .ph-focus {
+    font-family: var(--codeFont);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    color: var(--gray);
+    margin: 0.4rem 0 0;
+  }
+
+  .ph-intro {
+    margin-top: 1.75rem;
+    color: var(--darkgray);
+    line-height: 1.7;
+
+    p {
+      margin: 0 0 0.9rem;
+    }
+  }
+
+  .ph-section {
+    margin: 0 0 3rem;
+  }
+
+  .ph-heading {
+    font-family: var(--codeFont);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--lightgray);
+  }
+
+  .ph-edu {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin: 0 0 1rem;
+  }
+
+  .ph-edu-school {
+    font-weight: 400;
+    color: var(--dark);
+    margin: 0;
+  }
+
+  .ph-edu-program {
+    color: var(--darkgray);
+    margin: 0.15rem 0 0;
+  }
+
+  .ph-edu-date {
+    font-family: var(--codeFont);
+    font-size: 0.8rem;
+    color: var(--gray);
+    white-space: nowrap;
+  }
+
+  @media #{$mobile} {
+    padding-top: 1rem;
+
+    .ph-name {
+      font-size: 1.9rem;
+    }
+
+    .ph-edu {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+}
+
+// Project cards (ProjectCards component in plugins/portfolio-home).
+
+.project-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));
+  gap: 1rem;
+
+  > .project-card-item {
+    margin: 0;
+    display: flex;
+  }
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--lightgray) 22%, var(--light));
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--tertiary) 55%, var(--lightgray));
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--tertiary);
+    outline-offset: 2px;
+  }
+
+  .pc-media {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-bottom: 1px solid var(--lightgray);
+    background: var(--lightgray);
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      margin: 0;
+      border-radius: 0;
+      transition: transform 0.4s ease;
+    }
+  }
+
+  &:hover .pc-media img {
+    transform: scale(1.03);
+  }
+
+  .pc-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 1rem 1.1rem 1.1rem;
+    flex: 1;
+  }
+
+  .pc-date {
+    font-family: var(--codeFont);
+    font-size: 0.72rem;
+    color: var(--gray);
+    margin: 0;
+  }
+
+  .pc-title {
+    font-family: var(--headerFont);
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--dark);
+    margin: 0;
+    transition: color 0.18s ease;
+  }
+
+  &:hover .pc-title {
+    color: var(--tertiary);
+  }
+
+  .pc-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--darkgray);
+    margin: 0;
+  }
+
+  .pc-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding: 0;
+    margin: auto 0 0;
+    padding-top: 0.35rem;
+
+    li {
+      margin: 0;
+      font-family: var(--codeFont);
+      font-size: 0.66rem;
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--gray);
+      border: 1px solid var(--lightgray);
+      border-radius: 4px;
+      padding: 0.05rem 0.45rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-card .pc-media img,
+  .project-card .pc-title {
+    transition: none;
+  }
+
+  .project-card:hover,
+  .project-card:focus-visible,
+  .project-card:hover .pc-media img {
+    transform: none;
+  }
+}
+
+// Site layout (all pages): left nav sidebar | content | right sidebar, with
+// thin full-height divider lines between the columns (after Richard Hua's
+// site). The content column sits in the same place on every page, so
+// navigating doesn't shift the text. Lines show on desktop; tablet keeps the
+// left one; mobile has none.
+//
+// `div#quartz-root.page[data-frame] > div#quartz-body` outranks the theme's
+// unlayered `div#quartz-root.page div#quartz-body` (width: min(100%, 1500px)).
+
+$navWidth: 280px;
+$contentWidth: 700px;
+$gutter: 2rem;
+
+div#quartz-root.page[data-frame] > div#quartz-body {
+  .center {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .page-header {
+    margin-top: 3rem;
+    position: relative;
+  }
+
+  .sidebar {
+    padding-top: 3rem;
+    // The theme draws its own sidebar border; the divider lines replace it.
+    border-left: none;
+    border-right: none;
+  }
+
+  .center > hr {
+    display: none;
+  }
+
+  footer {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    position: relative;
+    margin: 3rem 0 0;
+    padding: 1.5rem 1rem 3rem;
+    opacity: 1;
+    color: var(--gray);
+    font-size: 0.85rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--lightgray);
+    }
+
+    p {
+      color: var(--gray);
+      margin: 0 0 0.5rem;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      gap: 1.25rem;
+    }
+  }
+
+  @media #{$tablet}, #{$desktop} {
+    position: relative;
+    column-gap: $gutter;
+    margin: 0 auto;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--lightgray);
+      pointer-events: none;
+    }
+
+    // Left divider, centered in the gutter.
+    &::before {
+      left: calc(#{$navWidth} + #{$gutter} / 2);
+    }
+
+    > .sidebar.left {
+      padding: 3rem 1rem 2rem 2rem;
+    }
+
+    .center {
+      padding: 0 1rem;
+    }
+
+    // Footer overline runs from divider to divider.
+    footer::before {
+      left: calc(-#{$gutter} / 2);
+      right: calc(-#{$gutter} / 2);
+    }
+  }
+
+  @media #{$desktop} {
+    width: auto;
+    max-width: calc(#{$navWidth} * 2 + #{$contentWidth} + #{$gutter} * 2);
+    grid-template-columns: #{$navWidth} minmax(0, #{$contentWidth}) #{$navWidth};
+
+    &::after {
+      right: calc(#{$navWidth} + #{$gutter} / 2);
+    }
+
+    > .sidebar.right {
+      padding: 3rem 2rem 2rem 1rem;
+    }
+  }
+
+  @media #{$tablet} {
+    width: auto;
+    grid-template-columns: 240px minmax(0, 1fr);
+
+    footer::before {
+      right: 0;
+    }
+
+    &::before {
+      left: calc(240px + #{$gutter} / 2);
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  @media #{$mobile} {
+    .page-header {
+      margin-top: 1rem;
+    }
+  }
+}
+
+// Section underlines on notes, the homepage hero, and project headers reach
+// the divider lines (content column padding 1rem + half the gutter).
+.center .page-header:has(.popover-hint > *),
+.portfolio-home .ph-hero,
+.project-page .project-header {
+  position: relative;
+  padding-bottom: 1.75rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--lightgray);
+  }
+
+  @media #{$tablet}, #{$desktop} {
+    &::after {
+      left: calc(-1rem - #{$gutter} / 2);
+      right: calc(-1rem - #{$gutter} / 2);
+    }
+  }
+
+  // Tablet has no right divider; stop at the content edge.
+  @media #{$tablet} {
+    &::after {
+      right: -1rem;
+    }
+  }
+}
+
+// Backlinks / table of contents: mono labels like the homepage sections.
+.sidebar.right {
+  .backlinks {
+    padding-left: 0;
+  }
+
+  .backlinks > h3,
+  .toc .toc-header h3,
+  .toc > button h3 {
+    font-family: var(--codeFont);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+}
+
+// Project pages (plugins/portfolio-project).
+
+.project-page {
+  .project-header {
+    margin: 1rem 0 2.5rem;
+  }
+
+  .project-title {
+    font-family: var(--headerFont);
+    font-size: 2.25rem;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--dark);
+    margin: 0 0 0.9rem;
+  }
+
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    margin: 0;
+    font-family: var(--codeFont);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .project-tag {
+    color: var(--gray);
+    background: none;
+    padding: 0;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: var(--tertiary);
+    }
+  }
+
+  .project-lede {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--darkgray);
+    margin: 1.25rem 0 0;
+  }
+
+  .markdown-rendered {
+    line-height: 1.7;
+
+    h2 {
+      margin-top: 2.5rem;
+    }
+
+    h3 {
+      margin-top: 1.75rem;
+    }
+  }
+
+  .project-hero {
+    margin: 2rem 0 0;
+    border: 1px solid var(--lightgray);
+    border-radius: 8px;
+    overflow: hidden;
+
+    img {
+      display: block;
+      width: 100%;
+      margin: 0;
+      border-radius: 0;
+    }
+  }
+
+  @media #{$mobile} {
+    .project-title {
+      font-size: 1.9rem;
+    }
+  }
+}
+
+// Motion (plugins/portfolio-motion). The script only adds these classes when
+// reduced motion is off; the media query below is a second guard.
+
+@keyframes motion-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #quartz-body > .center.motion-enter {
+    animation: motion-enter 0.32s cubic-bezier(0, 0, 0.2, 1) both;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s cubic-bezier(0, 0, 0.2, 1);
+
+    &.is-revealed {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  img.img-fade {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+
+    &.is-loaded {
+      opacity: 1;
+    }
+  }
+}
+
+@media print {
+  .reveal,
+  img.img-fade {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+// Mobile polish (Phase 8).
+
+.portfolio-home .ph-focus-item {
+  white-space: nowrap;
+}
+
+.project-card .pc-tags li {
+  font-size: 0.7rem;
+}
+
+@media #{$mobile} {
+  // Quartz hides the site title on phones; keep the name (and a link home)
+  // in the top bar, between the Site Map menu and search.
+  div#quartz-root.page[data-frame] > div#quartz-body > .sidebar.left {
+    gap: 0.5rem;
+
+    > .page-title {
+      display: block;
+      font-size: 1rem;
+      margin: 0 auto 0 0.25rem;
+
+      a {
+        display: inline-block;
+        padding-block: 0.25rem;
+        font-size: inherit;
+        white-space: nowrap;
+      }
+    }
+
+    // Reader mode mostly hides sidebars, which phones already collapse.
+    .readermode {
+      display: none;
+    }
+
+    > .mobile-only:has(.spacer) {
+      display: none;
+    }
+  }
+}
+
+// Touch: give small inline links at least ~24px of tap height.
+@media (pointer: coarse), #{$mobile} {
+  .project-page .project-tag,
+  .breadcrumb-container .breadcrumb-element > a,
+  // (outranks custom.scss's `body a.internal:not(...)` padding reset)
+  .sidebar .backlinks a.internal,
+  footer a {
+    display: inline-block;
+    padding-block: 0.35rem;
+  }
+}
+
+// Phone Site Map menu: roomier panel and bigger tap rows.
+@media #{$mobile} {
+  .explorer .explorer-content {
+    padding: 5.5rem 1.5rem 2rem;
+
+    ul li > a,
+    .folder-container div > a,
+    .folder-container div > button span {
+      font-size: 1.05rem;
+      line-height: 1.4;
+    }
+
+    ul li > a {
+      display: inline-block;
+      padding-block: 0.4rem;
+    }
+
+    .folder-container {
+      padding-block: 0.25rem;
+    }
+  }
+}

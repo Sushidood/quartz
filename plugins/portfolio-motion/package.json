@@ -1,0 +1,35 @@
+{
+  "name": "portfolio-motion",
+  "version": "0.1.0",
+  "description": "Subtle page-enter, scroll-reveal, and image fade-in for this Quartz site.",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/components/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "quartz": {
+    "name": "portfolio-motion",
+    "displayName": "Portfolio Motion",
+    "category": "component",
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 50,
+    "defaultEnabled": true,
+    "defaultOptions": {},
+    "components": {
+      "Motion": {
+        "displayName": "Motion",
+        "defaultPosition": "afterBody",
+        "defaultPriority": 90
+      }
+    }
+  }
+}
