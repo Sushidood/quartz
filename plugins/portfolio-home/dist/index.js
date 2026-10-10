@@ -1,66 +1,49 @@
 // Portfolio homepage page type.
 //
 // Hand-written ESM (no build step): Quartz imports dist/ directly, so this file
-// is the source. It renders the root `index` page as a portfolio homepage.
+// is the source. It renders the root `index` page (content/index.md). All text
+// comes from that note:
 //
-// Text content comes from the plugin options in quartz.config.yaml. Any of the
-// same keys set in content/index.md frontmatter take precedence. Projects are
-// read from the notes under `projectsFolder` and shown with ProjectCards.
+//   title          -> the large name heading, and the site title in the sidebar
+//   role, focus    -> optional frontmatter: a subtitle line and a "·" list
+//   links          -> optional frontmatter list: a row of links (any page; see
+//                     pageLinksNode in ./components/index.js)
+//   body           -> rendered as Markdown below ("##" headings are styled as
+//                     section labels; see quartz/styles/portfolio.scss)
+//
+// It also registers, for every page, the `<div class="wikilinked-list">` and
+// `links` transforms (see ./components/index.js).
+//
+// A leading "# Title" in the body that repeats the title is not shown twice.
 
 import { h } from "preact"
-import { ProjectCards, readProjects, splitFeatured } from "./components/index.js"
-
-const defaultOptions = {
-  name: "",
-  role: "",
-  focus: [],
-  intro: [],
-  education: [],
-  projectsFolder: "projects",
-}
-
-const OVERRIDABLE = ["name", "role", "focus", "intro", "education"]
+import { htmlToJsx } from "@quartz-community/utils"
+import {
+  pageLinksNode,
+  pageLinksTransform,
+  wikilinkedListTransform,
+  withoutLeadingTitle,
+} from "./components/index.js"
 
 const asArray = (v) => (v == null || v === "" ? [] : Array.isArray(v) ? v : [v])
 
-function Section({ id, title, children }) {
-  return h(
-    "section",
-    { class: "ph-section", "aria-labelledby": id },
-    h("h2", { class: "ph-heading", id }, title),
-    children,
-  )
-}
-
-export default function PortfolioHome(userOpts) {
-  const opts = { ...defaultOptions, ...userOpts }
-
-  const FeaturedCards = ProjectCards({ folder: opts.projectsFolder, show: "featured" })
-  const OtherCards = ProjectCards({ folder: opts.projectsFolder, show: "other" })
-
+export default function PortfolioHome() {
   const HomeBody = () => {
-    const Body = (props) => {
-      const { fileData, allFiles } = props
+    const Body = ({ fileData, tree, allFiles }) => {
       const fm = fileData.frontmatter ?? {}
-      const data = { ...opts }
-      for (const key of OVERRIDABLE) {
-        if (fm[key] != null && fm[key] !== "") data[key] = fm[key]
-      }
-
-      const focus = asArray(data.focus)
-      const intro = asArray(data.intro)
-      const education = asArray(data.education)
-
-      const { featured, other } = splitFeatured(readProjects(allFiles ?? [], opts.projectsFolder))
+      const title = fm.title ?? ""
+      const focus = asArray(fm.focus).map(String)
+      const body = withoutLeadingTitle(tree, title).tree
+      const classes = ["popover-hint", "portfolio-home", ...asArray(fm.cssclasses)].join(" ")
 
       return h(
         "article",
-        { class: "portfolio-home" },
+        { class: classes },
         h(
           "header",
           { class: "ph-hero" },
-          h("h1", { class: "ph-name" }, data.name || fm.title || ""),
-          data.role ? h("p", { class: "ph-role" }, data.role) : null,
+          h("h1", { class: "ph-name" }, title),
+          fm.role ? h("p", { class: "ph-role" }, String(fm.role)) : null,
           // Each item is its own span so lines only break between items.
           focus.length > 0
             ? h(
@@ -72,47 +55,12 @@ export default function PortfolioHome(userOpts) {
                 ]),
               )
             : null,
-          intro.length > 0
-            ? h(
-                "div",
-                { class: "ph-intro" },
-                intro.map((p) => h("p", null, p)),
-              )
-            : null,
+          (() => {
+            const links = pageLinksNode(fileData, allFiles)
+            return links ? htmlToJsx({ type: "root", children: [links] }) : null
+          })(),
         ),
-        featured.length > 0
-          ? h(
-              Section,
-              { id: "featured-projects", title: "Featured projects" },
-              h(FeaturedCards, props),
-            )
-          : null,
-        education.length > 0
-          ? h(
-              Section,
-              { id: "education", title: "Education" },
-              education.map((e) =>
-                h(
-                  "div",
-                  { class: "ph-edu" },
-                  h(
-                    "div",
-                    null,
-                    h("p", { class: "ph-edu-school" }, e.school ?? ""),
-                    e.program ? h("p", { class: "ph-edu-program" }, e.program) : null,
-                  ),
-                  e.date ? h("span", { class: "ph-edu-date" }, e.date) : null,
-                ),
-              ),
-            )
-          : null,
-        other.length > 0
-          ? h(
-              Section,
-              { id: "other-projects", title: "Other projects" },
-              h(OtherCards, props),
-            )
-          : null,
+        h("div", { class: "ph-body markdown-preview-view markdown-rendered" }, htmlToJsx(body)),
       )
     }
     return Body
@@ -125,6 +73,15 @@ export default function PortfolioHome(userOpts) {
     match: ({ slug }) => slug === "index",
     layout: "home",
     body: HomeBody,
+    // Runs before any page is emitted: use index.md's title as the site title
+    // (sidebar name). `pageTitle` in quartz.config.yaml is only the fallback.
+    generate: ({ content, cfg }) => {
+      const index = content.find(([, file]) => file.data.slug === "index")
+      const title = index?.[1].data.frontmatter?.title
+      if (title) cfg.pageTitle = String(title)
+      return []
+    },
+    treeTransforms: () => [wikilinkedListTransform, pageLinksTransform],
   }
 }
 

@@ -9,7 +9,7 @@
 const script = `
 (() => {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)")
-  const REVEAL = ".ph-section, .project-card-item, .project-hero, .project-page .markdown-rendered > h2"
+  const REVEAL = ".ph-body > h2, .wl-row, .project-hero, .project-page .markdown-rendered > h2"
 
   function onNav() {
     if (reduce.matches) return
@@ -44,10 +44,10 @@ const script = `
           { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
         )
         for (const el of targets) {
-          // Light stagger across a row of cards.
-          if (el.classList.contains("project-card-item")) {
+          // Light stagger down a wikilinked list.
+          if (el.classList.contains("wl-row")) {
             const i = [...el.parentElement.children].indexOf(el)
-            el.style.transitionDelay = (i % 3) * 60 + "ms"
+            el.style.transitionDelay = Math.min(i, 4) * 50 + "ms"
           }
           el.classList.add("reveal")
           io.observe(el)

@@ -73,7 +73,23 @@ body a.internal-link:not(.tag-link, :has(> img)) {
   transition: color 0.15s ease;
 
   &:hover {
-    color: var(--tertiary);
+    // --link-color-hover is var(--tertiary) by default; .colored-links overrides it.
+    color: var(--link-color-hover);
+  }
+}
+
+// Colored links. Wrap text in <span class="colored-links"> (inline) or
+// <div class="colored-links"> (blank lines inside) and every link in it uses
+// --link-color. Default: Gruvbox orange. Override per use with
+//   style="--link-color: #d3869b"   or   style="--link-color: var(--gb-purple)"
+// (the --gb-* palette vars switch with light/dark mode).
+.colored-links {
+  --link-color: var(--gb-orange);
+  --link-color-hover: color-mix(in srgb, var(--link-color) 70%, var(--dark));
+
+  a,
+  a.internal {
+    color: var(--link-color);
   }
 }
 

@@ -6,18 +6,8 @@
 .portfolio-home {
   padding: 0 0 1rem;
 
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  li {
-    margin: 0;
-  }
-
   .ph-hero {
-    margin-bottom: 3rem;
+    margin-bottom: 2.25rem;
   }
 
   .ph-name {
@@ -45,57 +35,34 @@
     margin: 0.4rem 0 0;
   }
 
-  .ph-intro {
-    margin-top: 1.75rem;
-    color: var(--darkgray);
+  // The body of index.md. "##" headings read as quiet section labels.
+  .ph-body {
     line-height: 1.7;
 
-    p {
+    > p {
       margin: 0 0 0.9rem;
     }
-  }
 
-  .ph-section {
-    margin: 0 0 3rem;
-  }
+    h2 {
+      font-family: var(--codeFont);
+      font-size: 0.75rem;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin: 3rem 0 0.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--lightgray);
 
-  .ph-heading {
-    font-family: var(--codeFont);
-    font-size: 0.75rem;
-    font-weight: 400;
-    line-height: 1.4;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin: 0 0 1.25rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 1px solid var(--lightgray);
-  }
+      &:first-child {
+        margin-top: 0;
+      }
 
-  .ph-edu {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    margin: 0 0 1rem;
-  }
-
-  .ph-edu-school {
-    font-weight: 400;
-    color: var(--dark);
-    margin: 0;
-  }
-
-  .ph-edu-program {
-    color: var(--darkgray);
-    margin: 0.15rem 0 0;
-  }
-
-  .ph-edu-date {
-    font-family: var(--codeFont);
-    font-size: 0.8rem;
-    color: var(--gray);
-    white-space: nowrap;
+      > a[role="anchor"] {
+        display: none;
+      }
+    }
   }
 
   @media #{$mobile} {
@@ -104,11 +71,94 @@
     .ph-name {
       font-size: 1.9rem;
     }
+  }
+}
 
-    .ph-edu {
-      flex-direction: column;
-      gap: 0.25rem;
+// Wikilinked lists: <div class="wikilinked-list"> around a list of wikilinks
+// (any note). Rows after Richard Hua's featured projects: no card, thin dividers.
+
+.wikilinked-list {
+  margin: 0 0 1rem;
+
+  ul.wl-rows,
+  ol.wl-rows {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li.wl-row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin: 0;
+    padding: 1rem 0;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--lightgray);
+
+    &::marker {
+      content: none;
     }
+  }
+
+  .wl-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  // The title link covers the whole row (::after), so the row is clickable;
+  // tag links sit above it and keep their own targets.
+  a.wl-link {
+    color: inherit;
+    font-weight: 400;
+    background: none;
+    padding: 0;
+    text-decoration: none;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  .wl-title {
+    color: var(--dark);
+    font-weight: 400;
+    transition: color 0.15s ease;
+  }
+
+  li.wl-row:hover .wl-title,
+  a.wl-link:focus-visible .wl-title {
+    color: var(--tertiary);
+  }
+
+  .wl-date {
+    flex-shrink: 0;
+    font-family: var(--codeFont);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .wl-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--darkgray);
+  }
+
+  .wl-tags {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.15rem;
+    width: fit-content;
   }
 }
 
@@ -463,24 +513,23 @@ div#quartz-root.page[data-frame] > div#quartz-body {
   .project-meta {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 0.4rem 1.25rem;
     margin: 0;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .project-date {
     font-family: var(--codeFont);
     font-size: 0.72rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--gray);
-  }
-
-  .project-tag {
-    color: var(--gray);
-    background: none;
-    padding: 0;
-    transition: color 0.15s ease;
-
-    &:hover {
-      color: var(--tertiary);
-    }
   }
 
   .project-lede {
@@ -615,7 +664,8 @@ div#quartz-root.page[data-frame] > div#quartz-body {
 
 // Touch: give small inline links at least ~24px of tap height.
 @media (pointer: coarse), #{$mobile} {
-  .project-page .project-tag,
+  .project-tags .tag-link,
+  .wl-tags .tag-link,
   .breadcrumb-container .breadcrumb-element > a,
   // (outranks custom.scss's `body a.internal:not(...)` padding reset)
   .sidebar .backlinks a.internal,
@@ -645,5 +695,92 @@ div#quartz-root.page[data-frame] > div#quartz-body {
     .folder-container {
       padding-block: 0.25rem;
     }
+  }
+}
+
+// Collapsed Site Map / table of contents: Quartz collapses them to a fixed
+// 1.2-1.4rem height, which cuts off our (taller) headings. On desktop and
+// tablet, size the collapsed panel to its heading and hide the list instead.
+@media #{$tablet}, #{$desktop} {
+  .sidebar .explorer.collapsed,
+  .sidebar .toc:has(button.toc-header.collapsed) {
+    flex: 0 0 auto;
+  }
+
+  .sidebar .explorer.collapsed > .explorer-content,
+  .sidebar .toc:has(button.toc-header.collapsed) > .toc-content {
+    display: none;
+  }
+}
+
+// The theme pads the TOC toggle; line its label up with the backlinks label.
+.sidebar button.toc-header {
+  padding: 0;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+// Page links row (`links` frontmatter; plugins/portfolio-home). Under the hero
+// on the homepage, at the top of the body on other pages.
+.page-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+
+  .page-link {
+    color: var(--darkgray);
+    font-weight: 400;
+    background: none;
+    padding: 0;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  a.page-link:hover {
+    color: var(--tertiary);
+  }
+
+  .page-link-ext {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+    color: var(--gray);
+  }
+}
+
+.portfolio-home .ph-hero .page-links {
+  margin: 1rem 0 0;
+}
+
+@media (pointer: coarse), #{$mobile} {
+  .page-links a.page-link {
+    display: inline-block;
+    padding-block: 0.35rem;
+  }
+}
+
+// Tags: one look for every Quartz tag link (#tags in note bodies, the
+// Properties box, project headers, wikilinked-list rows). Quartz adds the "#".
+// (`html body` outranks the theme's unlayered `body a.internal-link` pill.)
+html body a.tag-link {
+  font-family: var(--codeFont);
+  font-size: 0.78em;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--secondary);
+  background-color: color-mix(in srgb, var(--secondary) 12%, transparent);
+  border-radius: 4px;
+  padding: 0.05em 0.45em;
+  text-decoration: none;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover {
+    color: var(--tertiary);
+    background-color: color-mix(in srgb, var(--tertiary) 16%, transparent);
   }
 }

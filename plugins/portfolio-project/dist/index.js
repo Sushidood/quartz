@@ -9,7 +9,12 @@
 
 import { h } from "preact"
 import { htmlToJsx, resolveRelative } from "@quartz-community/utils"
-import { formatDate, imageSrc, resolveImage } from "../../portfolio-home/dist/components/index.js"
+import {
+  formatDate,
+  imageSrc,
+  resolveImage,
+  withoutLeadingTitle,
+} from "../../portfolio-home/dist/components/index.js"
 
 const defaultOptions = {
   folder: "projects",
@@ -19,28 +24,6 @@ const defaultOptions = {
 const CSS_ESCAPE = (id) => id.replace(/["\\<>]/g, "")
 
 const asArray = (v) => (v == null || v === "" ? [] : Array.isArray(v) ? v : [v])
-
-const textOf = (node) =>
-  node.type === "text" ? node.value : (node.children ?? []).map(textOf).join("")
-
-// Notes often repeat their title as a leading "# Title"; the header already shows it.
-// Returns the tree without it, plus the dropped heading's id (for the TOC).
-function withoutLeadingTitle(tree, title) {
-  if (!tree?.children) return { tree, droppedId: null }
-  const idx = tree.children.findIndex((n) => n.type === "element")
-  const first = tree.children[idx]
-  if (
-    first &&
-    first.tagName === "h1" &&
-    textOf(first).trim().toLowerCase() === String(title).trim().toLowerCase()
-  ) {
-    return {
-      tree: { ...tree, children: tree.children.filter((_, i) => i !== idx) },
-      droppedId: first.properties?.id ? String(first.properties.id) : null,
-    }
-  }
-  return { tree, droppedId: null }
-}
 
 export default function PortfolioProject(userOpts) {
   const opts = { ...defaultOptions, ...userOpts }
@@ -73,15 +56,18 @@ export default function PortfolioProject(userOpts) {
                   ? h(
                       "span",
                       { class: "project-tags" },
-                      tags.map((t, i) => [
-                        i > 0 ? h("span", { class: "sep", "aria-hidden": "true" }, " · ") : null,
+                      // Native Quartz tag links (frontmatter tags + inline #tags), the
+                      // same markup Quartz uses for #tags in note bodies.
+                      tags.map((t) =>
                         h(
                           "a",
-                          { href: resolveRelative(fileData.slug, `tags/${t}`), class: "project-tag" },
-                          // Quartz slugifies tags ("PCB" -> "pcb"); CSS shows them in uppercase.
-                          t.replace(/-/g, " "),
+                          {
+                            href: resolveRelative(fileData.slug, `tags/${t}`),
+                            class: "tag-link internal internal-link",
+                          },
+                          t,
                         ),
-                      ]),
+                      ),
                     )
                   : null,
                 fm.date ? h("span", { class: "project-date" }, formatDate(fm.date, cfg?.locale)) : null,

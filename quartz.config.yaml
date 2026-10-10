@@ -275,8 +275,8 @@ plugins:
     options:
       links:
         GitHub: https://github.com/Sushidood
-        LinkedIn: "#"
-        Email: "#"
+        LinkedIn: https://www.linkedin.com/in/edward-yang-4a7599375/
+        Email: mailto:e234yang@uwaterloo.ca
     layout:
       position: footer
       priority: 50
@@ -320,24 +320,7 @@ plugins:
     order: 50
   - source: ./plugins/portfolio-home
     enabled: true
-    options:
-      name: Eddie Yang
-      role: Electrical Engineering @ University of Waterloo
-      focus:
-        - Robotics
-        - Controls
-        - Embedded Systems
-        - AI
-      intro:
-        - I'm an Electrical Engineering student at the University of Waterloo, interested in robotics, controls,
-          embedded systems, and aerospace.
-        - I like building hardware end to end, from PCB design and firmware to testing and characterizing the finished
-          system.
-      education:
-        - school: University of Waterloo
-          program: Electrical Engineering
-          date: Expected 2031
-      projectsFolder: projects
+    options: {}
     order: 50
   - source: ./plugins/portfolio-project
     enabled: true
