@@ -13,3 +13,7 @@ replit.nix
 quartz/cli/tui/dist/
 .turbo/
 PHASE1_HANDOFF.txt
+content
+content/index.md
+/content
+/content
