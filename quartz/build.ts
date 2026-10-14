@@ -354,6 +354,8 @@ async function rebuild(changes: ChangeEvent[], clientRefresh: () => void, buildD
     )
     console.log(styleText("green", `Done rebuilding in ${perf.timeSince()}`))
     changes.splice(0, numChangesInBuild)
+    // only clear after a successful rebuild so a failed one is retried next time
+    buildData.changesSinceLastBuild = {}
     clientRefresh()
   } finally {
     release()
