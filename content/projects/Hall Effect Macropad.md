@@ -23,7 +23,7 @@ The PCB was designed in KiCad; the following picture is my final PCB design:
 
 ![[Hall Effect Macropad-1791985675634.webp]]
 
-Each key's footprint has a X ohm decoupling capacitor, and an output filtering capacitor:
+Each key's footprint has a decoupling capacitor, and an output filtering capacitor:
 
 ![[Hall Effect Macropad-1791985618317.webp]]
 
