@@ -637,6 +637,13 @@ div#quartz-root.page[data-frame] > div#quartz-body {
   // in the top bar, between the Site Map menu and search.
   div#quartz-root.page[data-frame] > div#quartz-body > .sidebar.left {
     gap: 0.5rem;
+    // The top bar stays stuck while scrolling, but the theme makes it
+    // transparent on phones, so the page shows through it. Paint it with the
+    // page colour; the shadows carry it across #quartz-body's side padding.
+    background-color: var(--light);
+    box-shadow:
+      -1rem 0 0 var(--light),
+      1rem 0 0 var(--light);
 
     > .page-title {
       display: block;
