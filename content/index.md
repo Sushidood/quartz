@@ -5,13 +5,14 @@ focus:
   - Robotics
   - Controls
   - Embedded Systems
+  - Aerospace 
 links:
   - "[GitHub](https://github.com/Sushidood)"
   - "[LinkedIn](https://www.linkedin.com/in/edward-yang-4a7599375/)"
   - e234yang@uwaterloo.ca
 ---
 
-Electrical Engineering student at the University of Waterloo, interested in robotics, controls, embedded systems, and aerospace.
+Electrical Engineering student at the University of Waterloo, interested in complex problems. Seeking co-op and internship opportunities.
 
 
 ## Featured Projects
@@ -22,4 +23,3 @@ Electrical Engineering student at the University of Waterloo, interested in robo
 - [[MyPlate Food Portioning Game]]
 
 </div>
-
