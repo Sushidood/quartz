@@ -219,6 +219,27 @@ export function tagLinkNode(tag, currentSlug) {
   })
 }
 
+// One wikilinked-list row for a note: title, date, description, and tags, all
+// from its frontmatter. Also used by the tag pages (plugins/portfolio-tags).
+export function noteRowNode(file, href, currentSlug, locale, fallbackTitle) {
+  const fm = file.frontmatter ?? {}
+  const title = String(fm.title ?? fallbackTitle ?? file.slug)
+  const desc = describe(fm, file)
+  // Frontmatter tags and inline #tags (Quartz merges both into frontmatter.tags).
+  const tags = asArray(fm.tags).map(String)
+
+  // The title link is "stretched" over the whole row (CSS ::after), so the row
+  // is clickable while the tag links on top of it still go to their tag pages.
+  const top = [el("a", "wl-link", [el("span", "wl-title", [txt(title)])], { href })]
+  if (fm.date) top.push(el("span", "wl-date", [txt(formatDate(fm.date, locale))]))
+
+  const body = [el("span", "wl-top", top)]
+  if (desc) body.push(el("span", "wl-desc", [txt(desc)]))
+  if (tags.length > 0) body.push(el("span", "wl-tags", tags.map((t) => tagLinkNode(t, currentSlug))))
+
+  return el("li", "wl-row", body)
+}
+
 function wikilinkedRow(li, filesBySlug, locale, currentSlug) {
   const kids = (li.children ?? []).filter((n) => !(n.type === "text" && !n.value.trim()))
   // A list item is either the link itself or a <p> holding just the link.
@@ -230,22 +251,7 @@ function wikilinkedRow(li, filesBySlug, locale, currentSlug) {
   const file = slug ? filesBySlug.get(String(slug)) : null
   if (!file) return null
 
-  const fm = file.frontmatter ?? {}
-  const title = String(fm.title ?? textOf(a))
-  const desc = describe(fm, file)
-  // Frontmatter tags and inline #tags (Quartz merges both into frontmatter.tags).
-  const tags = asArray(fm.tags).map(String)
-
-  // The title link is "stretched" over the whole row (CSS ::after), so the row
-  // is clickable while the tag links on top of it still go to their tag pages.
-  const top = [el("a", "wl-link", [el("span", "wl-title", [txt(title)])], { href: a.properties.href })]
-  if (fm.date) top.push(el("span", "wl-date", [txt(formatDate(fm.date, locale))]))
-
-  const body = [el("span", "wl-top", top)]
-  if (desc) body.push(el("span", "wl-desc", [txt(desc)]))
-  if (tags.length > 0) body.push(el("span", "wl-tags", tags.map((t) => tagLinkNode(t, currentSlug))))
-
-  return el("li", "wl-row", body)
+  return noteRowNode(file, a.properties.href, currentSlug, locale, textOf(a))
 }
 
 export function wikilinkedListTransform(root, slug, componentData) {

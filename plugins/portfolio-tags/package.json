@@ -1,0 +1,30 @@
+{
+  "name": "portfolio-tags",
+  "version": "0.1.0",
+  "description": "Tag page type: tagged notes as wikilinked-list rows.",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "peerDependencies": {
+    "preact": "^10.0.0"
+  },
+  "quartz": {
+    "name": "portfolio-tags",
+    "displayName": "Portfolio Tags",
+    "category": [
+      "pageType"
+    ],
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 50,
+    "defaultEnabled": true,
+    "defaultOptions": {}
+  }
+}
