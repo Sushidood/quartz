@@ -176,7 +176,7 @@ plugins:
   - source: "@quartz-community/folder-page"
     enabled: true
   - source: "@quartz-community/tag-page"
-    enabled: true
+    enabled: false
   - source: "@quartz-community/explorer"
     enabled: true
     options:
@@ -323,6 +323,10 @@ plugins:
     options: {}
     order: 50
   - source: ./plugins/portfolio-project
+    enabled: true
+    options: {}
+    order: 50
+  - source: ./plugins/portfolio-tags
     enabled: true
     options: {}
     order: 50

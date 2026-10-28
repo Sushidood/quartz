@@ -771,8 +771,14 @@ div#quartz-root.page[data-frame] > div#quartz-body {
 
 // Tags: one look for every Quartz tag link (#tags in note bodies, the
 // Properties box, project headers, wikilinked-list rows). Quartz adds the "#".
-// (`html body` outranks the theme's unlayered `body a.internal-link` pill.)
-html body a.tag-link {
+// The theme's unlayered pill rule (`html[saved-theme] body a.internal-link.tag-link`)
+// makes tags `display: flex`, so a tag on its own line stretched across the
+// whole column; `html:root ... .tag-link.tag-link` outranks it.
+html:root body a.tag-link.tag-link {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  border: none;
   font-family: var(--codeFont);
   font-size: 0.78em;
   font-weight: 400;
@@ -789,5 +795,55 @@ html body a.tag-link {
   &:hover {
     color: var(--tertiary);
     background-color: color-mix(in srgb, var(--tertiary) 16%, transparent);
+  }
+}
+
+// Tag pages (plugins/portfolio-tags): tagged notes as wikilinked-list rows,
+// under a mono label like the homepage sections ("1 item", or "#tag  2 items"
+// on the tag index).
+.tag-page {
+  padding-top: 2.5rem;
+
+  .tag-section {
+    margin: 0 0 2.5rem;
+  }
+
+  .tag-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    font-family: var(--codeFont);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    color: var(--gray);
+    margin: 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--lightgray);
+
+    > a[role="anchor"] {
+      display: none;
+    }
+  }
+
+  a.tag-label-link {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--secondary);
+    background: none;
+    padding: 0;
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: var(--tertiary);
+    }
+  }
+
+  .tag-count {
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 }
